@@ -1,17 +1,18 @@
 import React, {useState, useEffect} from 'react'
 import img from '../images/poster.jpg'
-import { useDispatch, useSelector } from 'react-redux'
-import { BiSearchAlt } from 'react-icons/bi';
+import { useDispatch, useSelector } from 'react-redux';
 import { AiOutlinePlus } from 'react-icons/ai';
 import { MdArrowForwardIos } from 'react-icons/md';
 import { getSearchMovie } from '../slices/SearchMovieSlice';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { getMovies } from '../slices/AllMoviesSlice';
 
 const HomePage = () => {
       const [selectedGenres, setSelectedGenres] = useState([]);
       const [reload, setReload] = useState(false);
       const [inputValue, setInputValue] = useState("");
-      const [closeSearchTray, setCloseSearchTray] = useState(true)
-      const [seatchMovies, setSeatchMovies] = useState([])
+      const [closeSearchTray, setCloseSearchTray] = useState(true);
       
       
       // redux for the genres
@@ -19,14 +20,27 @@ const HomePage = () => {
       const movies =  useSelector(state => state.allMovies);
       const searchM =  useSelector(state => state.searchMovie);
       const dispatch = useDispatch();
-      // console.log(movies);
-      
+      const navigate =  useNavigate();
+      const selectedGenresLocalStorage = JSON.parse(localStorage.getItem("selectedGenres"));
+      const apiKey = 'ac8a3479c6590b82c6d9c82d62545a12';
+      let listOfIds = parseInt(selectedGenresLocalStorage.toString());
+      const MOVIE_URL = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&with_genres=${listOfIds}`;
+//use Effect to fetch selected genres from localStorage.
       useEffect(() => {
             let localStorageData = JSON.parse(localStorage.getItem('selectedGenres'));
             setSelectedGenres(localStorageData);
       }, [reload]);
-      
-      // console.log(movies);
+
+      //use Effect to fetch selected genres movies from The Movie Database(TMDb).
+      useEffect(() => {
+            axios.get(MOVIE_URL).then(data => {
+                  dispatch(getMovies(data.data.results));
+                  }).catch(err => {
+                  console.log(err);
+                  });
+      }, [MOVIE_URL, dispatch, selectedGenresLocalStorage]);
+
+            
       // Function handling on change of the search input
       const handleChanges = (e) => {
             const value = e.target.value
@@ -34,26 +48,21 @@ const HomePage = () => {
             const movieFilter =  movies.filter((movieName) => {
                  return  movieName.title.toLowerCase().includes(value.toLowerCase());
             });
-            // redux for the searched movie.
+            // redux to store the searched movie.
             dispatch(getSearchMovie(movieFilter));
       }
 
-
       // Function handling the submit.
-      const handleSubmit = (e) => {
-            console.log(inputValue);
-            
-      }
-      // Function handling the submit.
-      const handleSearchChoice = (e) => {
+      const handleSearchInput = (e) => {
             setInputValue(e.title);
             setCloseSearchTray(false);
             dispatch(getSearchMovie([e]));
-            console.log(searchM);
+            navigate(`/searchmoviedetail/${e.id}`);
 
       }
       // Function handling the selected genres with local Storage functionalities.
       const handleSelectedGenres = (id) => {
+            console.log(id);
             if(localStorage.selectedGenres){
                   let localStorageData =  JSON.parse(localStorage.getItem('selectedGenres'));
                   localStorage.setItem('selectedGenres', JSON.stringify([...localStorageData, id])); 
@@ -78,25 +87,29 @@ const HomePage = () => {
 
   return (
     <div className='min-h-screen bg-no-repeat w-full pt-20 bg-cover bg-black/70 bg-blend-overlay' style={{backgroundImage: `url(${img})`}}>
-            {/* <p className="text-center text-white my-2 ">Pr.</p> */}
       <div className="text text-center relative md:mt-32  lg:w-1/2 w-2/3 mx-auto">
-            <input type="search" value={inputValue} placeholder='search movies by title...' onChange={handleChanges} onKeyUp={(e) => e.key === "Enter" && handleSubmit()} className="text py-1 px-5 w-full" />
-            <div className={`text absolute  bg-white mt-1 w-full mx-auto min-h-40 ${inputValue && closeSearchTray? " " : "hidden"}`}>
+            <input type="search" value={inputValue} placeholder='search movies by title...' onChange={handleChanges}
+            //  onKeyUp={(e) => e.key === "Enter" && handleSubmit()} 
+             className="text py-1 px-5 w-full" />
+            <div className={`text absolute cursor-pointer  bg-white mt-1 w-full mx-auto min-h-40 ${inputValue && closeSearchTray? " " : "hidden"}`}>
                   {searchM.map((value, index) => (
                         <>
-                        <div onClick={() =>handleSearchChoice(value)} className="text border px-5 py-1">{searchM.length === 0 ?value.title : "No Movie With Such Name"}</div>
+                        <div onClick={() =>handleSearchInput(value)} className="text hover:bg-slate-50 border px-5 py-1">{value.title}</div>
                         </>
                   ))}
             </div>
       </div>
-      <div className="text-white mt-10 lg:px-40  px-2 md:px-10">
+      <div className="text-white w-full lg:w-4/5 mx-auto mt-10 lg:px-40  px-2 md:px-10">
             <h1 className="text-white text-center font-semibold">Get Top Movies Based On Genre</h1>
             <p className="text-center">You can add as many genre as possible.</p>
+            {/* Section to display button if at least one genre has been seleceted */}
             <div className="text-center mt-3">
-                        <button className={`text bg-blue-600 px-10 mx-auto py-2 items-center rounded  ${selectedGenres.length > 0? "flex" : " hidden "}`}>
+                  <Link to="/recommendation">
+                        <button className={`text-center justify-center bg-blue-600 px-5 w-1/2 md:w-1/3 mx-auto py-2 items-center rounded  ${selectedGenres?.length > 0? "flex" : " hidden "}`}>
                               Explore
                               <MdArrowForwardIos className={`ml-3 font-bold text-lg animate-pulse `}/>
                         </button>
+                  </Link>
             </div>
 
             <div className="text flex flex-wrap mx-auto">
@@ -117,7 +130,6 @@ const HomePage = () => {
         ))}
         </div>
       </div>
-      {/* <img src={img} alt="poster" className="text w-full h-full" /> */}
     </div>
   )
 }
