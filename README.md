@@ -40,6 +40,9 @@ c. inside the "index.css" file paste
 
 d. npm run start
 
+Or go to 
+https://tailwindcss.com/docs/guides/create-react-app
+
 <!-- # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
