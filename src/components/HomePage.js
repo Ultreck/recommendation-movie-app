@@ -23,7 +23,7 @@ const HomePage = () => {
       const navigate =  useNavigate();
       const selectedGenresLocalStorage = JSON.parse(localStorage.getItem("selectedGenres"));
       const apiKey = 'ac8a3479c6590b82c6d9c82d62545a12';
-      let listOfIds = parseInt(selectedGenresLocalStorage.toString());
+      let listOfIds = parseInt(selectedGenresLocalStorage?.toString());
       const MOVIE_URL = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&with_genres=${listOfIds}`;
 
       //use Effect to fetch selected genres from localStorage.
