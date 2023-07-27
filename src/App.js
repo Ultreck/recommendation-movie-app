@@ -15,14 +15,14 @@ function App() {
       const GENRE_URL = "https://api.themoviedb.org/3/genre/movie/list?api_key=ac8a3479c6590b82c6d9c82d62545a12";
       
       
-//use Effect to fetch all genres from The Movie Database(TMDb).
+    //use Effect to fetch all genres from The Movie Database(TMDb).
       useEffect(() => {
             axios.get(GENRE_URL).then(response => {
                   const genreMap = {};
                   response.data.genres.forEach(genre => {
                     genreMap[genre.id] = genre.name;
                   });
-                  // redux to get all Genres
+                  // redux to store all Genres
                   dispatch(getGenres(genreMap));
                 }).catch(error => {
                   console.error('Error fetching genres:', error);

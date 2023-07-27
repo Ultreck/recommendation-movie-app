@@ -3,7 +3,6 @@ import { AiFillStar } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 
 const Movies = ({ title, info, posterPath, genres, vote_average }) => {
-  // console.log(info);
     
   return (
     <>

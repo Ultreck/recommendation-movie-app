@@ -15,7 +15,7 @@ const HomePage = () => {
       const [closeSearchTray, setCloseSearchTray] = useState(true);
       
       
-      // redux for the genres
+      // redux 
       const genres =  useSelector(state => state.allGenres);
       const movies =  useSelector(state => state.allMovies);
       const searchM =  useSelector(state => state.searchMovie);
@@ -25,7 +25,8 @@ const HomePage = () => {
       const apiKey = 'ac8a3479c6590b82c6d9c82d62545a12';
       let listOfIds = parseInt(selectedGenresLocalStorage.toString());
       const MOVIE_URL = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&with_genres=${listOfIds}`;
-//use Effect to fetch selected genres from localStorage.
+
+      //use Effect to fetch selected genres from localStorage.
       useEffect(() => {
             let localStorageData = JSON.parse(localStorage.getItem('selectedGenres'));
             setSelectedGenres(localStorageData);
@@ -88,8 +89,7 @@ const HomePage = () => {
   return (
     <div className='min-h-screen bg-no-repeat w-full pt-20 bg-cover bg-black/70 bg-blend-overlay' style={{backgroundImage: `url(${img})`}}>
       <div className="text text-center relative md:mt-32  lg:w-1/2 w-2/3 mx-auto">
-            <input type="search" value={inputValue} placeholder='search movies by title...' onChange={handleChanges}
-            //  onKeyUp={(e) => e.key === "Enter" && handleSubmit()} 
+            <input type="search" value={inputValue} placeholder='search movies by title...' onChange={handleChanges} 
              className="text py-1 px-5 w-full" />
             <div className={`text absolute cursor-pointer  bg-white mt-1 w-full mx-auto min-h-40 ${inputValue && closeSearchTray? " " : "hidden"}`}>
                   {searchM.map((value, index) => (

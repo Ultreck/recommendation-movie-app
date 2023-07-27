@@ -1,4 +1,46 @@
 # Getting Started with Create React App
+npx install create-react-app  appName
+
+# Installations
+## 1. intallation of react ui material
+npm install @mui/material @emotion/react @emotion/styled
+
+## 2. intallation of react redux
+      a. npm install react-redux
+      b. npm install @reduxjs/toolkit react-redux
+
+## 3. intallation of axios
+npm install axios
+
+## 4. intallation of react icons
+npm install react-icons --save
+
+## 5. intallation of react-router-dom
+npm install react-router-dom
+
+## 6. intallation of tailwind css
+a. to install and initialized the tailwind
+      i. npm install -D tailwindcss
+      ii. npx tailwindcss init
+b. inside the "tailwind.config.js" file paste
+      /** @type {import('tailwindcss').Config} */
+            module.exports = {
+            content: [
+            "./src/**/*.{js,jsx,ts,tsx}",
+            ],
+            theme: {
+            extend: {},
+            },
+            plugins: [],
+            }
+c. inside the "index.css" file paste 
+      @tailwind base;
+      @tailwind components;
+      @tailwind utilities;
+
+d. npm run start
+
+<!-- # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
@@ -67,4 +109,4 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 
 ### `npm run build` fails to minify
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify) -->

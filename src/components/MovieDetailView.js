@@ -11,6 +11,7 @@ const MovieDetailView = () => {
       const genres =  useSelector(state => state.allGenres)
 
       useEffect(() => {
+            // Filtering the actual / matched movies, making use of "Userparams 'id' "
             const [foundMovie] = allMovies.filter(value => value.id === parseInt(id));
             setcurrentMovieDetail(foundMovie);
 

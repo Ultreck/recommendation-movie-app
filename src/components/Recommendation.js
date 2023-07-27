@@ -9,13 +9,11 @@ const Recommendation = () => {
   const movies = useSelector(state => state.allMovies);
   const genres = useSelector(state => state.allGenres);
    
-  // sorting the movie to extract the top rated movie as the poster.
-      useEffect(() => {
-        console.log(movies.length);
+  useEffect(() => {
+        // sorting the movie to extract the top rated movie as the poster.
         const sortedMovies = [...movies];
         sortedMovies.sort((a, b) => b.vote_average - a.vote_average);
         setSortedMovies(sortedMovies);
-        // console.log(sortedMovies);
       }, [movies]);
       
 
