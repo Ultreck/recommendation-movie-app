@@ -16,6 +16,7 @@ const Movies = ({ title, info, posterPath, genres, vote_average }) => {
         </div>
         <div className="lg:px-5 px-2 py-1 text-xs  lg:text-sm">
           <h2 className='text-slate-700'>{title}</h2>
+              <span className="text ">Genre(s): {genres}</span>
         </div>
           </div>
         </Link>

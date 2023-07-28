@@ -87,7 +87,7 @@ const Recommendation = () => {
                 title={movie.title}
                 vote_average={movie.vote_average}
                 posterPath={movie.poster_path}
-                genres={movie.genre_ids.map(id => id)}
+                genres={movie.genre_ids.map(id => genres[id]).join(", ")}
                 />
                 </>
               ))}
