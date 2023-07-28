@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import axios from 'axios';
 import { useDispatch } from 'react-redux'
 import Recommendation from "./components/Recommendation"
@@ -11,9 +11,23 @@ import MovieDetailView from './components/MovieDetailView';
 import SearchMovieDetail from './components/SearchMovieDetail';
 
 function App() {
+  const [reload, setReload] = useState(false);
   const dispatch = useDispatch();
       const GENRE_URL = "https://api.themoviedb.org/3/genre/movie/list?api_key=ac8a3479c6590b82c6d9c82d62545a12";
       
+      const selectedGenresLocalStorage = JSON.parse(localStorage.getItem("selectedGenres"));
+      const apiKey = 'ac8a3479c6590b82c6d9c82d62545a12';
+      let listOfIds = parseInt(selectedGenresLocalStorage?.toString());
+      const MOVIE_URL = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&with_genres=${listOfIds}`;
+
+
+      useEffect(() => {
+        axios.get(MOVIE_URL).then(data => {
+              dispatch(getMovies(data.data.results));
+              }).catch(err => {
+              console.log(err);
+              });
+  }, [MOVIE_URL, dispatch, selectedGenresLocalStorage, reload]);
       
     //use Effect to fetch all genres from The Movie Database(TMDb).
       useEffect(() => {
@@ -28,7 +42,7 @@ function App() {
                   console.error('Error fetching genres:', error);
                 });
             
-      }, [dispatch]);
+      }, [dispatch, reload]);
 
     
 
@@ -37,7 +51,7 @@ function App() {
     <div className="App">
       <NavBar/>
       <Routes>
-        <Route path='/' element={<HomePage/>}/>
+        <Route path='/' element={<HomePage reload={reload} setReload={setReload}/>}/>
         <Route path='/recommendation' element={<Recommendation/>}/>
         <Route path='/moviedetailview/:id' element={<MovieDetailView/>}/>
         <Route path='/searchmoviedetail/:id' element={<SearchMovieDetail/>}/>

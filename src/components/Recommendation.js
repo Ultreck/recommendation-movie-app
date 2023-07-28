@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {useSelector } from 'react-redux';
 import Movies from "../components/Movies";
+import { Link, useNavigate } from 'react-router-dom';
 import { AiFillStar } from 'react-icons/ai';
 
 const Recommendation = () => {
@@ -8,6 +9,8 @@ const Recommendation = () => {
   const [sortedMovies, setSortedMovies] = useState([])
   const movies = useSelector(state => state.allMovies);
   const genres = useSelector(state => state.allGenres);
+  const selectedGenresLocalStorage = JSON.parse(localStorage.getItem("selectedGenres"));
+  const selectedGenresNameLocalStorage = JSON.parse(localStorage.getItem("selectedGenresName"));
    
   useEffect(() => {
         // sorting the movie to extract the top rated movie as the poster.
@@ -16,6 +19,14 @@ const Recommendation = () => {
         setSortedMovies(sortedMovies);
       }, [movies]);
       
+      useEffect(() => {
+            // sorting the movie to extract the top rated movie as the poster.
+          // let found = Object.keys(genres).includes(selectedGenresLocalStorage.map(val => val).toString());
+          // console.log(genres);
+          // console.log(found);
+
+          }, [selectedGenresLocalStorage, genres]);
+
 
     return (
       <div className="">
@@ -47,11 +58,23 @@ const Recommendation = () => {
               </div>
           </div>:
           <div className="text hidden"></div>
-          }
+        }
           </>
         ))}
-
+        
+          <h1 className="text-xl bg-blue-500 px-5 text-white mb-5 py-2 ">Go back to the Home page to adjust your genre by clicking <Link to="/" className="text underline font-bold">LightFlix</Link>  Brand name.</h1>
+        <div className="text-center  grid items-center lg:px-20 px-5  border">
+          <h1 className="text-xl font-bold">Selected Genre(s): </h1>
+          <div className="text flex flex-wrap py-3 mx-10">
+            {selectedGenresNameLocalStorage.map((value, index)  => (
+              <>
+              <div className="text bg-red-600 mx-2 py-2 px-5 my-2 text-white font-bold rounded">{value}</div>
+              </>
+            ))}
+          </div>
+        </div>
         {/* Section that mapped movies */}
+    
         <div className="flex justify-center  w-full">
         <div className="text ">
           <h1 className="text lg:ml-10 ml-5 font-bold text-xl">Recommended Movies</h1>

@@ -8,9 +8,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { getMovies } from '../slices/AllMoviesSlice';
 
-const HomePage = () => {
+const HomePage = ({reload, setReload}) => {
       const [selectedGenres, setSelectedGenres] = useState([]);
-      const [reload, setReload] = useState(false);
       const [inputValue, setInputValue] = useState("");
       const [closeSearchTray, setCloseSearchTray] = useState(true);
       
@@ -21,10 +20,10 @@ const HomePage = () => {
       const searchM =  useSelector(state => state.searchMovie);
       const dispatch = useDispatch();
       const navigate =  useNavigate();
-      const selectedGenresLocalStorage = JSON.parse(localStorage.getItem("selectedGenres"));
-      const apiKey = 'ac8a3479c6590b82c6d9c82d62545a12';
-      let listOfIds = parseInt(selectedGenresLocalStorage?.toString());
-      const MOVIE_URL = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&with_genres=${listOfIds}`;
+      // const selectedGenresLocalStorage = JSON.parse(localStorage.getItem("selectedGenres"));
+      // const apiKey = 'ac8a3479c6590b82c6d9c82d62545a12';
+      // let listOfIds = parseInt(selectedGenresLocalStorage?.toString());
+      // const MOVIE_URL = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&with_genres=${listOfIds}`;
 
       //use Effect to fetch selected genres from localStorage.
       useEffect(() => {
@@ -33,13 +32,13 @@ const HomePage = () => {
       }, [reload]);
 
       //use Effect to fetch selected genres movies from The Movie Database(TMDb).
-      useEffect(() => {
-            axios.get(MOVIE_URL).then(data => {
-                  dispatch(getMovies(data.data.results));
-                  }).catch(err => {
-                  console.log(err);
-                  });
-      }, [MOVIE_URL, dispatch, selectedGenresLocalStorage]);
+      // useEffect(() => {
+      //       axios.get(MOVIE_URL).then(data => {
+      //             dispatch(getMovies(data.data.results));
+      //             }).catch(err => {
+      //             console.log(err);
+      //             });
+      // }, [MOVIE_URL, dispatch, selectedGenresLocalStorage]);
 
             
       // Function handling on change of the search input
@@ -62,8 +61,8 @@ const HomePage = () => {
 
       }
       // Function handling the selected genres with local Storage functionalities.
-      const handleSelectedGenres = (id) => {
-            console.log(id);
+      const handleSelectedGenres = (id, genre) => {
+            console.log(genre);
             if(localStorage.selectedGenres){
                   let localStorageData =  JSON.parse(localStorage.getItem('selectedGenres'));
                   localStorage.setItem('selectedGenres', JSON.stringify([...localStorageData, id])); 
@@ -75,15 +74,36 @@ const HomePage = () => {
                   setSelectedGenres(localStorageData);
                   setReload(localStorageData);
             }
+            
+            // Condition that set the genre name into the local storage
+            if(localStorage.selectedGenresName){
+                  let localStorageName =  JSON.parse(localStorage.getItem('selectedGenresName'));
+                  localStorage.setItem('selectedGenresName', JSON.stringify([...localStorageName, genre])); 
+            
+            }else{
+                  localStorage.setItem('selectedGenresName', JSON.stringify([genre]));
+                  // let localStorageData =  JSON.parse(localStorage.getItem('selectedGenresName'));
+            }
+
       }
       
       // Function handling the cancle selected genres with local Storage functionality.
-      const handleCancleGenres = (id) => {
+      const handleCancleGenres = (id, genre) => {
             let localStorageData =  JSON.parse(localStorage.getItem('selectedGenres'));
             let found =localStorageData.filter((genres) => genres !== id)
             localStorage.setItem('selectedGenres', JSON.stringify(found));
             setReload(found);
+
+            let selectedGenresName =  JSON.parse(localStorage.getItem('selectedGenresName'));
+            let genreName = selectedGenresName.filter((genres) => genres !== genre)
+            localStorage.setItem('selectedGenresName', JSON.stringify(genreName));
+            setReload(found);
             
+      }
+      
+      const handleRecommendationRoute= () => {
+            navigate("/recommendation");
+            setReload(true);
       }
 
   return (
@@ -104,12 +124,10 @@ const HomePage = () => {
             <p className="text-center">You can add as many genre as possible.</p>
             {/* Section to display button if at least one genre has been seleceted */}
             <div className="text-center mt-3">
-                  <Link to="/recommendation">
-                        <button className={`text-center justify-center bg-blue-600 px-5 w-1/2 md:w-1/3 mx-auto py-2 items-center rounded  ${selectedGenres?.length > 0? "flex" : " hidden "}`}>
+                        <button onClick={handleRecommendationRoute} className={`text-center justify-center bg-blue-600 px-5 w-1/2 md:w-1/3 mx-auto py-2 items-center rounded  ${selectedGenres?.length > 0? "flex" : " hidden "}`}>
                               Explore
                               <MdArrowForwardIos className={`ml-3 font-bold text-lg animate-pulse `}/>
                         </button>
-                  </Link>
             </div>
 
             <div className="text flex flex-wrap mx-auto">
@@ -117,11 +135,11 @@ const HomePage = () => {
                   <div className=' flex justify-center  mx-auto'>
                   {/* Section that includes whether genre has been selected or not */}
                   {selectedGenres?.includes(id)? 
-                        <button onClick={(e) => handleCancleGenres(id)} className='md:mx-5 mx-1 font-semibold text-sm text-black bg-white md:px-5 px-3 py-2 my-3 flex items-center gap-1 rounded-lg'  key={id}>
+                        <button onClick={(e) => handleCancleGenres(id, genres[id])} className='md:mx-5 mx-1 font-semibold text-sm text-black bg-white md:px-5 px-3 py-2 my-3 flex items-center gap-1 rounded-lg'  key={id}>
                               <p className="text">{genres[id]}</p>
                                     <AiOutlinePlus className='rotate-[45deg] font-bold duration-500'/>
                         </button>:
-                        <button onClick={(e) => handleSelectedGenres(id)} className='md:mx-5 mx-1 font-semibold text-sm bg-[rgb(255,0,47)] md:px-5 px-3 py-2 my-3 flex items-center gap-1 rounded-lg'  key={id}>
+                        <button onClick={(e) => handleSelectedGenres(id, genres[id])} className='md:mx-5 mx-1 font-semibold text-sm bg-[rgb(255,0,47)] md:px-5 px-3 py-2 my-3 flex items-center gap-1 rounded-lg'  key={id}>
                         <p className="text">{genres[id]}</p>
                               <AiOutlinePlus className='rotate-0 font-bold duration-500'/>
                         </button>

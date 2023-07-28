@@ -8,7 +8,7 @@ const Movies = ({ title, info, posterPath, genres, vote_average }) => {
     <>
       <div className="w-1/2 p-3  hover:scale-105 duration-200 transition-all md:w-1/3 lg:w-1/4 xl:w-1/5 ">
         <Link to={`/moviedetailview/${info}`}>
-    <div className="text border-2 h-1/2 rounded-lg relative">
+    <div className="text rounded-lg relative">
         <img className='w-full h-8/10 rounded-lg' src={`https://image.tmdb.org/t/p/w500/${posterPath}`} alt={title} />
         <div className="absolute top-2 right-2 flex bg-red-600 px-3 py-1 rounded-lg text-white items-center gap-1">
               <span className="text font-bold">{vote_average}</span>
