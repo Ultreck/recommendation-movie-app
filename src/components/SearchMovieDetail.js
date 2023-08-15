@@ -11,8 +11,8 @@ const SearchMovieDetail = () => {
 
   return (
     <div>
-              <div className="text h-screen overflow-hidden justify-center bg-slate-800/90 px-10 w-full flex relative bg-blend-overlay items-center text-white bg-no-repeat bg-cover" style={{backgroundImage: `url(https://image.tmdb.org/t/p/w500/${searchMovie?.poster_path})`}} >
-            <div className={`text flex absolute lg:px-10 px-4  ${searchMovie? "" : "hidden"}`}>
+              <div className="text h-screen overflow-auto justify-center bg-slate-800/90 px-10 w-full flex relative bg-blend-overlay items-center text-white bg-no-repeat bg-cover" style={{backgroundImage: `url(https://image.tmdb.org/t/p/w500/${searchMovie?.poster_path})`}} >
+            <div className={`text flex flex-wrap-reverse absolute lg:px-10 px-4  ${searchMovie? "" : "hidden"}`}>
               <div className={`text sm:w-3/5 lg:px-20 px-3`}>
                   <h1 className="text-2xl font-bold">{searchMovie?.title}</h1>
                   <p className="text my-5">{searchMovie?.overview}</p>
@@ -32,8 +32,8 @@ const SearchMovieDetail = () => {
                         <Link to={`/`} className="text animate-bounce flex items-center gap-1 bg-red-600 px-6 py-1 rounded"><IoIosArrowBack/> Back To Home</Link>
                   </div>
               </div>
-              <div className="text w-2/5 hidden sm:flex">
-                <img src={`https://image.tmdb.org/t/p/w500/${searchMovie?.backdrop_path}`} alt="" className="text lg:w-4/5 h-60 mt-10 lg:mt-0 px-2 border-2 rounded-lg shadow-md shadow-white" />
+              <div className="text lg:w-2/5">
+                <img src={`https://image.tmdb.org/t/p/w500/${searchMovie?.backdrop_path}`} alt="" className="text lg:w-4/5 h-60 mt-36 mb-5 px-2 border-2 rounded-lg shadow-md shadow-white" />
               </div>
               </div>
           </div>

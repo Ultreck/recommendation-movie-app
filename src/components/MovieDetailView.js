@@ -18,9 +18,9 @@ const MovieDetailView = () => {
       }, [allMovies, id])
       
   return (
-    <div className='overflow-hidden relative'>
-      <div className="text h-screen overflow-hidden justify-center bg-slate-800/90 px-10 w-full flex relative bg-blend-overlay items-center text-white bg-no-repeat bg-cover" style={{backgroundImage: `url(https://image.tmdb.org/t/p/w500/${currentMovieDetail?.poster_path})`}} >
-            <div className={`text flex absolute lg:px-10 px-4  ${currentMovieDetail? "" : "hidden"}`}>
+    <div className='overflow-auto relative'>
+      <div className="text h-screen overflow-auto justify-center bg-slate-800/90 px-10 w-full flex relative bg-blend-overlay items-center text-white bg-no-repeat bg-cover" style={{backgroundImage: `url(https://image.tmdb.org/t/p/w500/${currentMovieDetail?.poster_path})`}} >
+            <div className={`text flex flex-wrap-reverse absolute lg:px-10 px-4  ${currentMovieDetail? "" : "hidden"}`}>
               <div className={`text sm:w-3/5 lg:px-20 px-3`}>
                   <h1 className="text-2xl font-bold">{currentMovieDetail?.title}</h1>
                   <p className="text my-5">{currentMovieDetail?.overview}</p>
@@ -36,12 +36,12 @@ const MovieDetailView = () => {
                     <span className="text font-bold mr-3">Genres:</span>
                     {currentMovieDetail?.genre_ids?.map(id => genres[id]).join(", ")}
                   </div>
-                  <div className="text absolute  mt-10">
+                  <div className="text absolute  my-10">
                         <Link to={`/recommendation`} className="text animate-bounce flex items-center gap-1 bg-red-600 px-6 py-1 rounded"><IoIosArrowBack/> Back To The Recommendation</Link>
                   </div>
               </div>
-              <div className="text w-2/5 hidden sm:flex">
-                <img src={`https://image.tmdb.org/t/p/w500/${currentMovieDetail?.backdrop_path}`} alt="" className="text lg:w-4/5 h-60 mt-10 lg:mt-0 px-2 border-2 rounded-lg shadow-md shadow-white" />
+              <div className="text lg:w-2/5 ">
+                <img src={`https://image.tmdb.org/t/p/w500/${currentMovieDetail?.backdrop_path}`} alt="" className={`${currentMovieDetail?.backdrop_path? "" : "hidden"} text lg:w-4/5 h-60 mt-32 mb-4 lg:mb-0 px-2 border-2 rounded-lg shadow-md shadow-white`} />
               </div>
               </div>
           </div>

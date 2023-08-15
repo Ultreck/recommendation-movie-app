@@ -20,25 +20,12 @@ const HomePage = ({reload, setReload}) => {
       const searchM =  useSelector(state => state.searchMovie);
       const dispatch = useDispatch();
       const navigate =  useNavigate();
-      // const selectedGenresLocalStorage = JSON.parse(localStorage.getItem("selectedGenres"));
-      // const apiKey = 'ac8a3479c6590b82c6d9c82d62545a12';
-      // let listOfIds = parseInt(selectedGenresLocalStorage?.toString());
-      // const MOVIE_URL = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&with_genres=${listOfIds}`;
 
       //use Effect to fetch selected genres from localStorage.
       useEffect(() => {
             let localStorageData = JSON.parse(localStorage.getItem('selectedGenres'));
             setSelectedGenres(localStorageData);
       }, [reload]);
-
-      //use Effect to fetch selected genres movies from The Movie Database(TMDb).
-      // useEffect(() => {
-      //       axios.get(MOVIE_URL).then(data => {
-      //             dispatch(getMovies(data.data.results));
-      //             }).catch(err => {
-      //             console.log(err);
-      //             });
-      // }, [MOVIE_URL, dispatch, selectedGenresLocalStorage]);
 
             
       // Function handling on change of the search input
@@ -62,7 +49,6 @@ const HomePage = ({reload, setReload}) => {
       }
       // Function handling the selected genres with local Storage functionalities.
       const handleSelectedGenres = (id, genre) => {
-            console.log(genre);
             if(localStorage.selectedGenres){
                   let localStorageData =  JSON.parse(localStorage.getItem('selectedGenres'));
                   localStorage.setItem('selectedGenres', JSON.stringify([...localStorageData, id])); 
@@ -110,7 +96,7 @@ const HomePage = ({reload, setReload}) => {
     <div className='min-h-screen bg-no-repeat w-full pt-20 bg-cover bg-black/70 bg-blend-overlay' style={{backgroundImage: `url(${img})`}}>
       <div className="text text-center relative md:mt-32  lg:w-1/2 w-2/3 mx-auto">
             <input type="search" value={inputValue} placeholder='search movies by title...' onChange={handleChanges} 
-             className="text py-1 px-5 w-full" />
+             className={`text py-1 px-5 w-full ${selectedGenres.length > 0? "" : "hidden"}`} />
             <div className={`text absolute cursor-pointer  bg-white mt-1 w-full mx-auto min-h-40 ${inputValue && closeSearchTray? " " : "hidden"}`}>
                   {searchM.map((value, index) => (
                         <>
