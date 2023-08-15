@@ -96,7 +96,7 @@ const HomePage = ({reload, setReload}) => {
     <div className='min-h-screen bg-no-repeat w-full pt-20 bg-cover bg-black/70 bg-blend-overlay' style={{backgroundImage: `url(${img})`}}>
       <div className="text text-center relative md:mt-32  lg:w-1/2 w-2/3 mx-auto">
             <input type="search" value={inputValue} placeholder='search movies by title...' onChange={handleChanges} 
-             className={`text py-1 px-5 w-full ${selectedGenres.length > 0? "" : "hidden"}`} />
+             className={`text py-1 px-5 w-full ${selectedGenres?.length > 0? "" : "hidden"}`} />
             <div className={`text absolute cursor-pointer  bg-white mt-1 w-full mx-auto min-h-40 ${inputValue && closeSearchTray? " " : "hidden"}`}>
                   {searchM.map((value, index) => (
                         <>
