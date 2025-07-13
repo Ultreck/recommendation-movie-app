@@ -12,7 +12,7 @@ const NavBar = () => {
                 <h1 className="text text-3xl" title='Home'> 
                 <Link to={'/'} >LightFlix</Link>
                  </h1>
-                <a href="##" className="text">
+                <a href="https://github.com/Ultreck/recommendation-movie-app" className="text">
                         <button title='Github Repo' className="text-white flex items-center bg-red-600  px-3 py-1 rounded animate-pulse gap-1" onClick={handleAlert}><BsGithub/>Github</button>
                 </a>
             </div>

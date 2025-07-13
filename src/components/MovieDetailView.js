@@ -2,7 +2,12 @@ import React, {useEffect,useState} from 'react';
 import { useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { AiFillStar } from 'react-icons/ai';
-import { IoIosArrowBack } from 'react-icons/io';
+import { IoIosArrowBack, IoMdSettings } from 'react-icons/io';
+import { FaFastBackward, FaFastForward, FaPlay } from 'react-icons/fa';
+import { HiSpeakerWave } from 'react-icons/hi2';
+import { MdSubtitles } from 'react-icons/md';
+import { RiFullscreenLine } from 'react-icons/ri';
+import { CgMiniPlayer } from 'react-icons/cg';
 
 const MovieDetailView = () => {
       const [currentMovieDetail, setcurrentMovieDetail] = useState({})
@@ -19,7 +24,44 @@ const MovieDetailView = () => {
       
   return (
     <div className='overflow-auto relative'>
-      <div className="text h-screen overflow-auto justify-center bg-slate-800/90 px-10 w-full flex relative bg-blend-overlay items-center text-white bg-no-repeat bg-cover" style={{backgroundImage: `url(https://image.tmdb.org/t/p/w500/${currentMovieDetail?.poster_path})`}} >
+      <div
+                    className="text"
+                  >
+                    <div className="text bg-gray-950">
+                      <div className="text relative w-full bg-gray-950 pt-20">
+                        <img
+                          src={`https://image.tmdb.org/t/p/w500/${currentMovieDetail?.poster_path}`}
+                          alt=""
+                          className="w-2/3 mx-auto h-[80vh] object-cover aspect-video"
+                        />
+                        <div className="absolute w-full h-1 bg-gray-500 bottom-7">
+                          <span className="absolute bottom-0 h-1 bg-red-500 w-60"></span>
+                          <span className="absolute bottom-0 h-1 bg-gray-300 left-60 w-80"></span>
+                          <span className="absolute -bottom-1 rounded-full h-3 bg-red-500 w-3 left-60"></span>
+                        </div>
+                      </div>
+      
+                      <div className="text flex justify-between items-center px-5 mt-2">
+                        <div className="text-white flex items-center text-xl gap-5">
+                          <FaFastBackward />
+                          <FaPlay />
+                          <FaFastForward />
+                          <HiSpeakerWave />
+                          <span>0:39/3:26</span>
+                        </div>
+                        <div className="text-white flex items-center text-xl gap-5">
+                          <MdSubtitles />
+                          <IoMdSettings />
+                          <CgMiniPlayer />
+                          <RiFullscreenLine />
+                        </div>
+                      </div>
+                      <h1 className="text-2xl text-white bg-gray-950 py-8 px-10 font-bold">
+                        {currentMovieDetail?.title} | The highers rating movie
+                      </h1>
+                    </div>
+                  </div>
+      {/* <div className="text h-screen overflow-auto justify-center bg-slate-800/90 px-10 w-full flex relative bg-blend-overlay items-center text-white bg-no-repeat bg-cover" style={{backgroundImage: `url(https://image.tmdb.org/t/p/w500/${currentMovieDetail?.poster_path})`}} >
             <div className={`text flex flex-wrap-reverse absolute lg:px-10 px-4  ${currentMovieDetail? "" : "hidden"}`}>
               <div className={`text sm:w-3/5 lg:px-20 px-3`}>
                   <h1 className="text-2xl font-bold">{currentMovieDetail?.title}</h1>
@@ -45,7 +87,7 @@ const MovieDetailView = () => {
               </div>
               </div>
           </div>
-      
+       */}
     </div>
   )
 }
