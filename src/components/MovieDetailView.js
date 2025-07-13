@@ -8,8 +8,10 @@ import { HiSpeakerWave } from 'react-icons/hi2';
 import { MdSubtitles } from 'react-icons/md';
 import { RiFullscreenLine } from 'react-icons/ri';
 import { CgMiniPlayer } from 'react-icons/cg';
+// import { FaPause } from "react-icons/fa";
 
 const MovieDetailView = () => {
+      const [objectType, setobjectType] = useState("object-contain")
       const [currentMovieDetail, setcurrentMovieDetail] = useState({})
       const {id} = useParams();
       const allMovies = useSelector(state => state.allMovies);
@@ -32,8 +34,9 @@ const MovieDetailView = () => {
                         <img
                           src={`https://image.tmdb.org/t/p/w500/${currentMovieDetail?.poster_path}`}
                           alt=""
-                          className="w-2/3 mx-auto h-[80vh] object-cover aspect-video"
+                          className={`w-2/3 mx-auto h-[80vh] ${objectType}`}
                         />
+                        <span className='absolute top-1/2 cursor-pointer left-1/2 text-white bg-gray-500/70 w-12 h-12 rounded-full flex justify-center items-center' > <FaPlay className='cursor-pointer' /></span>
                         <div className="absolute w-full h-1 bg-gray-500 bottom-7">
                           <span className="absolute bottom-0 h-1 bg-red-500 w-60"></span>
                           <span className="absolute bottom-0 h-1 bg-gray-300 left-60 w-80"></span>
@@ -43,17 +46,17 @@ const MovieDetailView = () => {
       
                       <div className="text flex justify-between items-center px-5 mt-2">
                         <div className="text-white flex items-center text-xl gap-5">
-                          <FaFastBackward />
-                          <FaPlay />
-                          <FaFastForward />
-                          <HiSpeakerWave />
+                          <FaFastBackward className='cursor-pointer' />
+                          <FaPlay className='cursor-pointer'/>
+                          <FaFastForward className='cursor-pointer'/>
+                          <HiSpeakerWave className='cursor-pointer'/>
                           <span>0:39/3:26</span>
                         </div>
                         <div className="text-white flex items-center text-xl gap-5">
-                          <MdSubtitles />
-                          <IoMdSettings />
-                          <CgMiniPlayer />
-                          <RiFullscreenLine />
+                          <MdSubtitles className='cursor-pointer'/>
+                          <IoMdSettings className='cursor-pointer'/>
+                          <CgMiniPlayer className='cursor-pointer'/>
+                          <RiFullscreenLine onClick={() => setobjectType(objectType === "object-contain"? "object-cover" : "object-contain")} className='cursor-pointer'/>
                         </div>
                       </div>
                       <h1 className="text-2xl text-white bg-gray-950 py-8 px-10 font-bold">
